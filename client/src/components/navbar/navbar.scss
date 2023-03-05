@@ -1,0 +1,58 @@
+.navbar {
+    position: fixed;
+    top: 0px;
+    width: 100%;
+    z-index: 1000;
+    color: white;
+    background-color: var(--main-color);
+
+    .container {
+        height: 60px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        img {
+            padding: 0px 50px;
+            height: 30px;
+        }
+
+        .navbar-left {
+            a {
+                margin: 0px 10px;
+                cursor: pointer;
+            }
+        }
+
+        .navbar-right {
+            margin-right: 40px;
+            position: flex;
+            flex-direction: column;
+
+            .icon {
+                margin: 0px 10px;
+                cursor: pointer;
+            }
+
+            .profile {
+                // VIP
+                float: right;
+
+                .options {
+                    display: none;
+                    background-color: var(--main-color);
+                    border-radius: 10px;
+                }
+
+                &:hover {
+                    .options {
+                        display: flex;
+                        flex-direction: column;
+                        padding: 10px;
+                        position: absolute;
+                    }
+                }
+            }
+        }
+    }
+}

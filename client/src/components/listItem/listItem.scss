@@ -1,0 +1,27 @@
+.listItem {
+    transition-duration: 0.1s;
+    height: 180px;
+    width: 320px;
+    background-color: wheat;
+    margin-left: 10px;
+    position: relative;
+
+    &:hover {
+        transition-delay: 0.5s;
+        transition-duration: 0.5s;
+        z-index: 2;
+
+        img {}
+    }
+
+    .video {
+        height: 270px;
+        width: 100%;
+    }
+
+    img {
+        height: 100%;
+        width: 100%;
+        object-fit: cover;
+    }
+}
