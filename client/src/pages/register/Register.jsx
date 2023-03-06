@@ -10,7 +10,6 @@ export default function Register() {
   const emailRef = useRef();
   const passwordRef = useRef();
   const usernameRef = useRef();
-
   const navigate = useNavigate();
 
   axios.create({ baseURL: process.env.API_URL });
