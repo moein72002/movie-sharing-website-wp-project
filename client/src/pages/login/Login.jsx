@@ -1,57 +1,46 @@
-import {useRef, useState} from "react";
-import { useNavigate } from "react-router-dom";
+import { useContext, useState } from "react";
+import { login } from "../../authContext/apiCalls";
+import { AuthContext } from "../../authContext/AuthContext";
 import "./login.scss";
-import axios from "axios";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const emailRef = useRef();
-  const passwordRef = useRef();
-  const navigate = useNavigate();
+  const { dispatch } = useContext(AuthContext);
 
-  const handleLogin = async (e) => {
+  const handleLogin = (e) => {
     e.preventDefault();
-    setEmail(emailRef.current.value);
-    setPassword(passwordRef.current.value);
-    try {
-      await axios.post("auth/login", { email,password });
-      navigate("/");
-    } catch (err) {
-
-    }
+    login({ email, password }, dispatch);
   };
   return (
-    <div className="login">
-      <div className="top">
-        <div className="wrapper">
-          <img
-            className="logo"
-            src="https://freesvg.org/img/Old-Fashioned-Film-Camera-Icon.png"
-            alt=""
-          />
+      <div className="login">
+        <div className="top">
+          <div className="wrapper">
+            <img
+                className="logo"
+                src="https://freesvg.org/img/Old-Fashioned-Film-Camera-Icon.png"
+                alt=""
+            />
+          </div>
+        </div>
+        <div className="container">
+          <form>
+            <h1>Sign In</h1>
+            <input
+                type="email"
+                placeholder="Email or phone number"
+                onChange={(e) => setEmail(e.target.value)}
+            />
+            <input
+                type="password"
+                placeholder="Password"
+                onChange={(e) => setPassword(e.target.value)}
+            />
+            <button className="loginButton" onClick={handleLogin}>
+              Sign In
+            </button>
+          </form>
         </div>
       </div>
-      <div className="container">
-        <form>
-          <h1>Sign In</h1>
-          <input
-            type="email"
-            placeholder="Email or phone number"
-            onChange={(e) => setEmail(e.target.value)}
-            ref={emailRef}
-          />
-          <input
-            type="password"
-            placeholder="Password"
-            onChange={(e) => setPassword(e.target.value)}
-            ref={passwordRef}
-          />
-          <button className="loginButton" onClick={handleLogin}>
-            Sign In
-          </button>
-        </form>
-      </div>
-    </div>
   );
 }
