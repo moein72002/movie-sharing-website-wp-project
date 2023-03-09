@@ -18,6 +18,7 @@ router.post("/", verify, async (req, res) => {
   }
 });
 
+//GET
 
 router.get("/find/:id", verify, async (req, res) => {
   try {
@@ -66,8 +67,6 @@ router.get("/", verify, async (req, res) => {
   }
 });
 
-module.exports = router;
-
 //UPDATE
 
 router.put("/:id", verify, async (req, res) => {
@@ -104,4 +103,4 @@ router.delete("/:id", verify, async (req, res) => {
   }
 });
 
-//GET
+module.exports = router;

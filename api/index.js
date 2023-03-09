@@ -22,6 +22,6 @@ app.use("/api/auth", authRoute);
 app.use("/api/users", userRoute);
 app.use("/api/movies", movieRoute);
 
-app.listen(3000, () => {
+app.listen(3010, () => {
   console.log("Backend server is running!");
 });

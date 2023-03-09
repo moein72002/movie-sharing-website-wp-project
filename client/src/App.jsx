@@ -14,7 +14,7 @@ const App = () => {
                 <Route path="/login" element={!user ? <Login/> : <Navigate to="/"/>}/>
                 {user && (
                     <>
-                        <Route path="/movies" element={<Home type="movies"/>}/>
+                        <Route path="/movies" element={<Home type="movie"/>}/>
                         <Route path="/series" element={<Home type="series"/>}/>
                     </>
                 )
