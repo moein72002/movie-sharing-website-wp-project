@@ -2,6 +2,7 @@ import './app.scss'
 import Home from "./pages/home/Home"
 import Register from "./pages/register/Register";
 import Login from "./pages/login/Login";
+import Watch from "./pages/watch/Watch"
 import {BrowserRouter, Route, Routes, Navigate} from "react-router-dom";
 
 const App = () => {
@@ -16,6 +17,7 @@ const App = () => {
                     <>
                         <Route path="/movies" element={<Home type="movie"/>}/>
                         <Route path="/series" element={<Home type="series"/>}/>
+                        <Route path="/watch" element={<Watch/>}/>
                     </>
                 )
                 }
