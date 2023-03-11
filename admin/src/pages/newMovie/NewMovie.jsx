@@ -12,6 +12,7 @@ export default function NewMovie() {
   const [trailer, setTrailer] = useState(null);
   const [video, setVideo] = useState(null);
   const [uploaded, setUploaded] = useState(0);
+  // console.log("Uploaded: " + uploaded);
 
   const { dispatch } = useContext(MovieContext);
 
@@ -30,6 +31,7 @@ export default function NewMovie() {
           const progress =
             (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
           console.log("Upload is " + progress + "% done");
+          // console.log("Uploaded: " + uploaded);
         },
         (error) => {
           console.log(error);
@@ -40,6 +42,7 @@ export default function NewMovie() {
               return { ...prev, [item.label]: url };
             });
             setUploaded((prev) => prev + 1);
+            console.log("Uploaded: " + uploaded);
           });
         }
       );
@@ -59,6 +62,7 @@ export default function NewMovie() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    console.log("create movie")
     createMovie(movie, dispatch);
   };
 

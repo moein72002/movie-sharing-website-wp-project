@@ -31,6 +31,7 @@ export const getMovies = async (dispatch) => {
 export const createMovie = async (movie, dispatch) => {
   dispatch(createMovieStart());
   try {
+    console.log(movie);
     const res = await axios.post("/movies", movie, {
       headers: {
         token: "Bearer " + JSON.parse(localStorage.getItem("user")).accessToken,
@@ -38,6 +39,7 @@ export const createMovie = async (movie, dispatch) => {
     });
     dispatch(createMovieSuccess(res.data));
   } catch (err) {
+    console.log(err);
     dispatch(createMovieFailure());
   }
 };
