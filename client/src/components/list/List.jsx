@@ -1,53 +1,49 @@
-import { ArrowBackIos, ArrowForwardIos } from '@material-ui/icons'
-import React, { useRef, useState } from 'react'
-import ListItem from '../listItem/ListItem'
-import './list.scss'
+import {
+    ArrowBackIosOutlined,
+    ArrowForwardIosOutlined,
+} from "@material-ui/icons";
+import { useRef, useState } from "react";
+import ListItem from "../listItem/ListItem";
+import "./list.scss";
 
-const List = () => {
+export default function List({ list }) {
+    const [isMoved, setIsMoved] = useState(false);
     const [slideNumber, setSlideNumber] = useState(0);
-    const [distance, setDistance] = useState(0);
+    const [clickLimit, setClickLimit] = useState(window.innerWidth / 230);
 
     const listRef = useRef();
 
-    const slide = (direction) => {
-        setDistance(listRef.current.getBoundingClientRect().x - 60);
-        if (direction === "left" && distance < 0) {
-            setSlideNumber(slideNumber - 1)
-            if (distance <= -330) listRef.current.style.transform = `translateX(${distance + 330}px)`;
-            else listRef.current.style.transform = `translateX(0px)`;
-        } else if (direction === "right" && distance > -2970) {
-            if (distance >= -2740) listRef.current.style.transform = `translateX(${distance - 330}px)`;
-            else listRef.current.style.transform = `translateX(-3300px)`;
+    const handleClick = (direction) => {
+        setIsMoved(true);
+        let distance = listRef.current.getBoundingClientRect().x - 50;
+        if (direction === "left" && slideNumber > 0) {
+            setSlideNumber(slideNumber - 1);
+            listRef.current.style.transform = `translateX(${230 + distance}px)`;
         }
-        setTimeout(() => {
-            setDistance(listRef.current.getBoundingClientRect().x - 60);
-        }, 1000)
-
-    }
-
+        if (direction === "right" && slideNumber < 10 - clickLimit) {
+            setSlideNumber(slideNumber + 1);
+            listRef.current.style.transform = `translateX(${-230 + distance}px)`;
+        }
+    };
     return (
-        <div className='list'>
-            <span className="listTitle">
-                Continue to Watch
-            </span>
+        <div className="list">
+            <span className="listTitle">{list.title}</span>
             <div className="wrapper">
-                <ArrowBackIos className='sliderArrow left' onClick={() => slide("left")} style={{ display: distance >= -1 && "none" }}></ArrowBackIos>
+                <ArrowBackIosOutlined
+                    className="sliderArrow left"
+                    onClick={() => handleClick("left")}
+                    style={{ display: !isMoved && "none" }}
+                />
                 <div className="container" ref={listRef}>
-                    <ListItem />
-                    <ListItem />
-                    <ListItem />
-                    <ListItem />
-                    <ListItem />
-                    <ListItem />
-                    <ListItem />
-                    <ListItem />
-                    <ListItem />
-                    <ListItem />
+                    {list.content.map((item, i) => (
+                        <ListItem index={i} item={item} />
+                    ))}
                 </div>
-                <ArrowForwardIos className='sliderArrow right' onClick={() => slide("right")} style={{ display: distance <= -2969 && "none" }}></ArrowForwardIos>
+                <ArrowForwardIosOutlined
+                    className="sliderArrow right"
+                    onClick={() => handleClick("right")}
+                />
             </div>
-        </div >
-    )
+        </div>
+    );
 }
-
-export default List
