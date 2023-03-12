@@ -47,8 +47,6 @@ export default function ListItem({ index, item }) {
                             <div className="icons">
                                 <PlayArrow className="icon" />
                                 <Add className="icon" />
-                                <ThumbUpAltOutlined className="icon" />
-                                <ThumbDownOutlined className="icon" />
                             </div>
                             <div className="itemInfoTop">
                                 <span>{movie.duration}</span>

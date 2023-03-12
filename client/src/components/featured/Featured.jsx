@@ -1,11 +1,13 @@
-import { InfoOutlined, PlayArrow } from "@material-ui/icons";
+import {InfoOutlined, PlayArrow} from "@material-ui/icons";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import {useEffect, useState} from "react";
 import "./featured.scss";
+import {Link} from "react-router-dom";
 
-export default function Featured({ type, setGenre }) {
+export default function Featured({type, setGenre}) {
     const [content, setContent] = useState({});
-    axios.create({ baseURL: process.env.API_URL });
+
+    axios.create({baseURL: process.env.API_URL});
 
     useEffect(() => {
         const getRandomContent = async () => {
@@ -13,7 +15,7 @@ export default function Featured({ type, setGenre }) {
                 const res = await axios.get(`/movies/random?type=${type}`, {
                     headers: {
                         token:
-                            "Bearer "+JSON.parse(localStorage.getItem("user")).accessToken,
+                            "Bearer " + JSON.parse(localStorage.getItem("user")).accessToken,
                     },
                 });
                 setContent(res.data[0]);
@@ -29,7 +31,7 @@ export default function Featured({ type, setGenre }) {
         <div className="featured">
             {type && (
                 <div className="category">
-                    <span>{type === "movie" ? "Movies" : "Series"}</span>
+                    <span>{type === "movies" ? "Movies" : "Series"}</span>
                     <select
                         name="genre"
                         id="genre"
@@ -52,7 +54,7 @@ export default function Featured({ type, setGenre }) {
                     </select>
                 </div>
             )}
-            <img src={content.img} alt="" />
+            <img src={content.img} alt=""/>
             <div className="info">
                 <span className="desc">{content.desc}</span>
                 <div className="buttons">
@@ -61,7 +63,7 @@ export default function Featured({ type, setGenre }) {
                         <span>Play</span>
                     </button>
                     <button className="more">
-                        <InfoOutlined />
+                        <InfoOutlined/>
                         <span>Info</span>
                     </button>
                 </div>
