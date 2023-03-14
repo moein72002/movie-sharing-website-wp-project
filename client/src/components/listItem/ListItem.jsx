@@ -2,6 +2,7 @@ import "./listItem.scss";
 import {
     PlayArrow,
     Add,
+    Delete,
     ThumbUpAltOutlined,
     ThumbDownOutlined,
 } from "@material-ui/icons";
@@ -12,8 +13,42 @@ import { Link } from "react-router-dom";
 export default function ListItem({ index, item }) {
     const [isHovered, setIsHovered] = useState(false);
     const [movie, setMovie] = useState({});
+    const [isfavotite, setisfavorite] = useState(false);
     axios.create({ baseURL: process.env.API_URL });
-
+    const handledelete = async (id)=>{
+        try {
+            setisfavorite(false);
+            const res = await axios.put("/users/favorite", {
+                headers: {
+                    token:
+                        "Bearer " + JSON.parse(localStorage.getItem("user")).accessToken,
+                },
+                body:{
+                    deleteMovie : id,
+                }
+            });
+            setMovie(res.data);
+        } catch (err) {
+            console.log(err);
+        }
+    }
+  const handleAdd = async (id) => {
+      try {
+          setisfavorite(true);
+          const res = await axios.put("/users/favorite", {
+              headers: {
+                  token:
+                      "Bearer " + JSON.parse(localStorage.getItem("user")).accessToken,
+              },
+              body:{
+                  addMovie : id,
+              }
+          });
+          setMovie(res.data);
+      } catch (err) {
+          console.log(err);
+      }
+  }
     useEffect(() => {
         const getMovie = async () => {
             try {
@@ -46,7 +81,12 @@ export default function ListItem({ index, item }) {
                         <div className="itemInfo">
                             <div className="icons">
                                 <PlayArrow className="icon" />
-                                <Add className="icon" />
+                                {isfavotite?
+                                    <Add onClick={handleAdd(movie.id)} className="icon" />
+                                :
+                                    <Delete onclick = {handledelete(movie.id)}/>
+                                }
+
                             </div>
                             <div className="itemInfoTop">
                                 <span>{movie.duration}</span>

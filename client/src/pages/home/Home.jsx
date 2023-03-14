@@ -14,6 +14,24 @@ const Home = ({ type }) => {
         const getRandomLists = async () => {
             try {
                 const res = await axios.get(
+                    "/users/favorite",
+                    {
+                        headers: {
+                            token: "Bearer " + JSON.parse(localStorage.getItem("user")).accessToken,
+                        },
+                    }
+                );
+                setlist(oldArray => [...oldArray, res.favoriteMovies]);
+            } catch (err) {
+                console.log(err);
+            }
+        };
+        getRandomLists();
+    }, [type, genre]);
+    useEffect(() => {
+        const getuserfavoriteLists = async () => {
+            try {
+                const res = await axios.get(
                     `lists${type ? "?type=" + type : ""}${
                         genre ? "&genre=" + genre : ""
                     }`,

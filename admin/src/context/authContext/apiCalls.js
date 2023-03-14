@@ -1,5 +1,5 @@
 import axios from "axios";
-import { loginFailure, loginStart, loginSuccess } from "./AuthActions";
+import { loginFailure, loginStart, loginSuccess } from "./AuthActions.js";
 
 axios.create({ baseURL: process.env.API_URL });
 

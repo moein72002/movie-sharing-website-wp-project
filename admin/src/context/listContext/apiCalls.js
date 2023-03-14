@@ -9,7 +9,7 @@ import {
   getListsFailure,
   getListsStart,
   getListsSuccess,
-} from "./ListActions";
+} from "./ListActions.js";
 
 axios.create({ baseURL: process.env.API_URL });
 

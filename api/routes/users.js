@@ -3,8 +3,51 @@ const User = require("../models/User");
 
 const verify = require("../verifyToken");
 const CryptoJS = require("crypto-js");
-//UPDATE
+const Movie = require("../models/Movie");
 
+//UPDATE
+//post favorite
+router.put("/favorite", verify, async (req, res) => {
+
+    try {
+
+      const updateUser = await User.findByIdAndUpdate(req.user.id , { $push: { favoriteMovies: req.body.addMovie} },
+          { new: true },);
+      console.log("ss");
+      console.log(updateUser);
+      res.status(201).json(updateUser);
+    } catch (err) {
+      res.status(500).json(err);
+    }
+
+});
+//get all favorite
+router.get("/favorite", verify, async (req, res) => {
+try {
+  user1= await User.find({_id : req.user.id});
+  res.status(200).json(user1);
+}catch (err){
+  console.log(err);
+}
+
+
+});
+//delete favorite
+router.put("/deletefavorite", verify, async (req, res) => {
+  try {
+    console.log(req.body.deleteMovie);
+    user1= await User.findByIdAndUpdate(
+        req.user.id,
+        { $pull: { favoriteMovie:{ _id:  req.body.deleteMovie} } },
+        { new: true },
+
+    );
+    res.status(200).json(user1);
+  }catch (err) {
+      res.status(500).json(err);
+    }
+
+});
 router.put("/:id", verify, async (req, res) => {
   if (req.user.id === req.params.id || req.user.isAdmin) {
     if (req.body.password) {

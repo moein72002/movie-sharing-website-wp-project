@@ -9,7 +9,7 @@ import {
   getMoviesFailure,
   getMoviesStart,
   getMoviesSuccess,
-} from "./MovieActions";
+} from "./MovieActions.js";
 
 axios.create({ baseURL: process.env.API_URL });
 

@@ -1,4 +1,4 @@
-import MovieReducer from "./MovieReducer";
+import MovieReducer from "./MovieReducer.js";
 import { createContext, useReducer } from "react";
 
 const INITIAL_STATE = {
