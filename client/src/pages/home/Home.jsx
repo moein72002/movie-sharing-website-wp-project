@@ -14,24 +14,6 @@ const Home = ({ type }) => {
         const getRandomLists = async () => {
             try {
                 const res = await axios.get(
-                    "/users/favorite",
-                    {
-                        headers: {
-                            token: "Bearer " + JSON.parse(localStorage.getItem("user")).accessToken,
-                        },
-                    }
-                );
-                setlist(oldArray => [...oldArray, res.favoriteMovies]);
-            } catch (err) {
-                console.log(err);
-            }
-        };
-        getRandomLists();
-    }, [type, genre]);
-    useEffect(() => {
-        const getuserfavoriteLists = async () => {
-            try {
-                const res = await axios.get(
                     `lists${type ? "?type=" + type : ""}${
                         genre ? "&genre=" + genre : ""
                     }`,
@@ -48,6 +30,27 @@ const Home = ({ type }) => {
         };
         getRandomLists();
     }, [type, genre]);
+
+    // useEffect(() => {
+    //     const getFavoriteMovies = async () => {
+    //         try {
+    //             const res = await axios.get(
+    //                 "/users",
+    //                 {
+    //                     headers: {
+    //                         token: "Bearer " + JSON.parse(localStorage.getItem("user")).accessToken,
+    //                     },
+    //                 }
+    //             );
+    //             console.log(res);
+    //             setLists(oldArray => [...oldArray, res.data.favoriteMovies]);
+    //
+    //         } catch (err) {
+    //             console.log(err);
+    //         }
+    //     };
+    //     getFavoriteMovies();
+    // }, [type, genre]);
 
     return (
         <div className="home">

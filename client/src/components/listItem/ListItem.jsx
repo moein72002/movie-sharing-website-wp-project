@@ -6,25 +6,30 @@ import {
     ThumbUpAltOutlined,
     ThumbDownOutlined,
 } from "@material-ui/icons";
-import { useEffect, useState } from "react";
+import {useEffect, useRef, useState} from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import {Link} from "react-router-dom";
 
-export default function ListItem({ index, item }) {
+export default function ListItem({index, item}) {
     const [isHovered, setIsHovered] = useState(false);
     const [movie, setMovie] = useState({});
-    const [isfavotite, setisfavorite] = useState(false);
-    axios.create({ baseURL: process.env.API_URL });
-    const handledelete = async (id)=>{
+    const trailerVideo = useRef();
+    const [isfavotite, setIsfavorite] = useState(false);
+
+
+    axios.create({baseURL: process.env.API_URL});
+
+    axios.create({baseURL: process.env.API_URL});
+    const handledelete = async (id) => {
         try {
-            setisfavorite(false);
-            const res = await axios.put("/users/favorite", {
+            setIsfavorite(false);
+            const res = await axios.put("users/favorite", {
                 headers: {
                     token:
                         "Bearer " + JSON.parse(localStorage.getItem("user")).accessToken,
                 },
-                body:{
-                    deleteMovie : id,
+                body: {
+                    deleteMovie: id,
                 }
             });
             setMovie(res.data);
@@ -32,23 +37,23 @@ export default function ListItem({ index, item }) {
             console.log(err);
         }
     }
-  const handleAdd = async (id) => {
-      try {
-          setisfavorite(true);
-          const res = await axios.put("/users/favorite", {
-              headers: {
-                  token:
-                      "Bearer " + JSON.parse(localStorage.getItem("user")).accessToken,
-              },
-              body:{
-                  addMovie : id,
-              }
-          });
-          setMovie(res.data);
-      } catch (err) {
-          console.log(err);
-      }
-  }
+    const addToFavoriteMovies = async () => {
+        try {
+            setIsfavorite(true);
+            const res = await axios.put("users/favorite", {
+                headers: {
+                    token:
+                        "Bearer " + JSON.parse(localStorage.getItem("user")).accessToken,
+                },
+                body: {
+                    addMovie: movie.id,
+                }
+            });
+            setMovie(res.data);
+        } catch (err) {
+            console.log(err);
+        }
+    }
     useEffect(() => {
         const getMovie = async () => {
             try {
@@ -66,6 +71,10 @@ export default function ListItem({ index, item }) {
         getMovie();
     }, [item]);
 
+    const playTrailerVideo = () => {
+        trailerVideo.current.play();
+    }
+
     return (
         <div
             className="listItem"
@@ -76,17 +85,18 @@ export default function ListItem({ index, item }) {
             {!isHovered && <img src={movie?.imgSm} alt=""/>}
             {isHovered && (
                 <>
-                    <video src={movie.trailer} autoPlay={true} loop/>
+                    <video src={movie.trailer} autoPlay={false} ref={trailerVideo} onClick={playTrailerVideo} loop/>
                     <div className="itemInfo">
                         <div className="icons">
                             <Link to={{pathname: "/watch", movie: movie}}>
                                 <PlayArrow className="playButton"/>
                             </Link>
-                            {isfavotite?
-                                <Add onClick={handleAdd(movie.id)} className="icon" />
-                                :
-                                <Delete onclick = {handledelete(movie.id)}/>
-                            }
+                            <Add className="icon" onClick={addToFavoriteMovies}/>
+                            {/*{isfavotite?*/}
+                            {/*    <Add onClick = {handleAdd(movie.id)} className="icon" />*/}
+                            {/*    :*/}
+                            {/*    <Delete onclick = {handledelete(movie.id)}/>*/}
+                            {/*}*/}
 
                         </div>
                         <div className="itemInfoTop">

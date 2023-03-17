@@ -25,7 +25,8 @@ router.put("/favorite", verify, async (req, res) => {
 router.get("/favorite", verify, async (req, res) => {
 try {
   user1= await User.find({_id : req.user.id});
-  res.status(200).json(user1);
+  console.log(user1);
+  res.status(200).json(user1[0]);
 }catch (err){
   console.log(err);
 }
