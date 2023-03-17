@@ -1,6 +1,6 @@
 import { useContext, useState } from "react";
 import "./newMovie.css";
-import storage from "../../firebase";
+import supabase from "../../supabase.js";
 import { createMovie } from "../../context/movieContext/apiCalls";
 import { MovieContext } from "../../context/movieContext/MovieContext";
 
@@ -21,42 +21,60 @@ export default function NewMovie() {
     setMovie({ ...movie, [e.target.name]: value });
   };
 
-  const upload = (items) => {
-    items.forEach((item) => {
+  const upload = async (items) => {
+    // items.forEach((item) => {
+    //   const fileName = new Date().getTime() + item.label + item.file.name;
+    //   const uploadTask = storage.ref(`/items/${fileName}`).put(item.file);
+    //   uploadTask.on(
+    //     "state_changed",
+    //     (snapshot) => {
+    //       const progress =
+    //         (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+    //       console.log("Upload is " + progress + "% done");
+    //       // console.log("Uploaded: " + uploaded);
+    //     },
+    //     (error) => {
+    //       console.log(error);
+    //     },
+    //     () => {Y
+    //       uploadTask.snapshot.ref.getDownloadURL().then((url) => {
+    //         setMovie((prev) => {
+    //           return { ...prev, [item.label]: url };
+    //         });
+    //         setUploaded((prev) => prev + 1);
+    //         console.log("Uploaded: " + uploaded);
+    //       });
+    //     }
+    //   );
+    // });
+
+    for (const item of items) {
       const fileName = new Date().getTime() + item.label + item.file.name;
-      const uploadTask = storage.ref(`/items/${fileName}`).put(item.file);
-      uploadTask.on(
-        "state_changed",
-        (snapshot) => {
-          const progress =
-            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-          console.log("Upload is " + progress + "% done");
-          // console.log("Uploaded: " + uploaded);
-        },
-        (error) => {
-          console.log(error);
-        },
-        () => {
-          uploadTask.snapshot.ref.getDownloadURL().then((url) => {
-            setMovie((prev) => {
-              return { ...prev, [item.label]: url };
-            });
-            setUploaded((prev) => prev + 1);
-            console.log("Uploaded: " + uploaded);
-          });
-        }
-      );
-    });
+      const {data, error} = await supabase.storage.from('netflix').upload(`/items/${fileName}`, item.file);
+      console.log(item.label);
+      console.log(data);
+
+
+      if (error) {
+        console.log(error);
+      } else {
+        setUploaded((prev) => prev + 1);
+        let url = "http://localhost:8000/storage/v1/object/public/netflix/" + data.path;
+        setMovie((prev) => {
+                    return {...prev, [item.label]: url};
+        });
+      }
+    }
   };
 
-  const handleUpload = (e) => {
+  const handleUpload = async (e) => {
     e.preventDefault();
-    upload([
-      { file: img, label: "img" },
-      { file: imgTitle, label: "imgTitle" },
-      { file: imgSm, label: "imgSm" },
-      { file: trailer, label: "trailer" },
-      { file: video, label: "video" },
+    await upload([
+      {file: img, label: "img"},
+      {file: imgTitle, label: "imgTitle"},
+      {file: imgSm, label: "imgSm"},
+      {file: trailer, label: "trailer"},
+      {file: video, label: "video"},
     ]);
   };
 

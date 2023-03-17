@@ -1,0 +1,8 @@
+import { createClient } from '@supabase/supabase-js';
+const SERVICE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyAgCiAgICAicm9sZSI6ICJzZXJ2aWNlX3JvbGUiLAogICAgImlzcyI6ICJzdXBhYmFzZS1kZW1vIiwKICAgICJpYXQiOiAxNjQxNzY5MjAwLAogICAgImV4cCI6IDE3OTk1MzU2MDAKfQ.DaYlNEoUrrEn2Ig7tqibS-PHK5vgusbcbo7X36XVt4Q"
+const KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVtYnFod2V3Z3VsY3V2bXB4bWxkIiwicm9sZSI6ImFub24iLCJpYXQiOjE2Nzg5NDQ3ODksImV4cCI6MTk5NDUyMDc4OX0.sBwvTCJViCdH-JkcX6SLKD9KzWd_unjNpW8dxGE8b2M"
+const SUPABASE_URL = "http://localhost:8000"
+
+const supabase = createClient(SUPABASE_URL, SERVICE_KEY);
+
+export default supabase;
