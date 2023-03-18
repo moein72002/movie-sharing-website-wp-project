@@ -11,9 +11,9 @@ function SingleComment(props) {
     const [CommentValue, setCommentValue] = useState("")
     const [OpenReply, setOpenReply] = useState(false)
 
-    useEffect(() => {
-        console.log(props.comment);
-    }, [props.comment]);
+    // useEffect(() => {
+    //     console.log(props.comment);
+    // }, [props.comment]);
 
     const handleChange = (e) => {
         setCommentValue(e.currentTarget.value)
@@ -52,14 +52,13 @@ function SingleComment(props) {
 
     }
 
-    const actions = [
-        <span className="replyToComment" onClick={openReply} key="comment-basic-reply-to">Reply to </span>
-    ]
+    // const actions = [
+    //     <span className="replyToComment" onClick={openReply} key="comment-basic-reply-to">Reply to </span>
+    // ]
 
     return (
         <div className="singleComment">
             <Comment className="comment"
-                     actions={actions}
                      author={props.comment.writer.username}
                      avatar={
                          <Avatar className="avatarImg"

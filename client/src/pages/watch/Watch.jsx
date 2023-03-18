@@ -20,9 +20,10 @@ export default function Watch() {
                 console.log(res.data)
                 setCommentLists(res.data.comments);
             })
-    }, )
+    })
 
     const updateComment = (newComment) => {
+        console.log(newComment);
         setCommentLists(commentLists.concat(newComment))
     }
     // const {movie} = useParams();

@@ -11,9 +11,9 @@ function Comments(props) {
     // const user = useSelector(state => state.user)
     const [Comment, setComment] = useState("");
 
-    useEffect(() => {
-        console.log(props.commentLists);
-    }, [props.commentLists]);
+    // useEffect(() => {
+    //     console.log(props.commentLists);
+    // }, [props.commentLists]);
 
     const handleChange = (e) => {
         setComment(e.currentTarget.value)
