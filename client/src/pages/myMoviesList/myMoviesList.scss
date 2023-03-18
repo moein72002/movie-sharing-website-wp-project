@@ -1,0 +1,30 @@
+.myMoviesList {
+  background-color: var(--main-color);
+  overflow: hidden;
+  padding-bottom: 120px;
+
+  .moviesListItems {
+    margin-top: 100px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .listItem {
+      border-radius: 20px;
+      margin-top: 20px;
+      width: 400px;
+      height: 100%;
+      //height: 225px;
+
+      video {
+        width: 400px;
+        height: 225px;
+      }
+
+      .itemInfo {
+        background-color: #80a0d0;
+        padding-bottom: 10px;
+      }
+    }
+  }
+}

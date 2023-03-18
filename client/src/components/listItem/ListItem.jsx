@@ -37,20 +37,20 @@ export default function ListItem({index, item}) {
     const addToFavoriteMovies = async () => {
         try {
             setIsfavorite(true);
-            const res = await axios.put("users/favorite", {
+            await axios.put("users/favorite", {
+                addMovie: movie._id
+            }, {
                 headers: {
                     token:
                         "Bearer " + JSON.parse(localStorage.getItem("user")).accessToken,
-                },
-                body: {
-                    addMovie: movie.id,
                 }
             });
-            setMovie(res.data);
+            // setMovie(res.data);
         } catch (err) {
             console.log(err);
         }
     }
+
     useEffect(() => {
         const getMovie = async () => {
             try {

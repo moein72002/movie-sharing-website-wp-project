@@ -11,6 +11,7 @@ import {
 } from "react-router-dom";
 import { useContext } from "react";
 import { AuthContext } from "./authContext/AuthContext";
+import MyMoviesList from "./pages/myMoviesList/MyMoviesList";
 
 const App = () => {
     const { user } = useContext(AuthContext);
@@ -27,13 +28,16 @@ const App = () => {
                 {user && (
                     <>
                         <Route path="/movies">
-                            <Home type="movie" />
+                            <Home type="movies" />
                         </Route>
                         <Route path="/series">
                             <Home type="series" />
                         </Route>
                         <Route path="/watch">
                             <Watch />
+                        </Route>
+                        <Route path="/myMoviesList">
+                            <MyMoviesList />
                         </Route>
                     </>
                 )}

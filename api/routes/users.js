@@ -13,7 +13,7 @@ router.put("/favorite", verify, async (req, res) => {
 
       const updateUser = await User.findByIdAndUpdate(req.user.id , { $push: { favoriteMovies: req.body.addMovie} },
           { new: true },);
-      console.log("ss");
+      console.log(req.body);
       console.log(updateUser);
       res.status(201).json(updateUser);
     } catch (err) {
@@ -26,7 +26,7 @@ router.get("/favorite", verify, async (req, res) => {
 try {
   user1= await User.find({_id : req.user.id});
   console.log(user1);
-  res.status(200).json(user1[0]);
+  res.status(200).json({favoriteMovies: user1[0].favoriteMovies});
 }catch (err){
   console.log(err);
 }
