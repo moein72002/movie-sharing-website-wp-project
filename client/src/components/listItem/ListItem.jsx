@@ -2,9 +2,6 @@ import "./listItem.scss";
 import {
     PlayArrow,
     Add,
-    Delete,
-    ThumbUpAltOutlined,
-    ThumbDownOutlined,
 } from "@material-ui/icons";
 import {useEffect, useRef, useState} from "react";
 import axios from "axios";

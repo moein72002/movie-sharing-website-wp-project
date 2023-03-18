@@ -1,0 +1,38 @@
+.singleComment {
+  margin: 20px;
+  padding: 20px;
+  background-color: #9d9d9d;
+  border-radius: 20px;
+
+  transition-delay: 0.5s;
+  transition-duration: 0.5s;
+
+  form {
+    margin: 20px;
+  }
+
+  .ant-comment-inner {
+    display: flex;
+
+    .ant-comment-avatar {
+      margin: 0 20px 20px 20px;
+    }
+
+    .ant-comment-content-author {
+      color: #3bb077;
+    }
+  }
+
+
+}
+
+.replyToComment {
+  cursor: pointer;
+}
+
+.avatarImg {
+  img {
+    width: 50px;
+    height: 50px;
+  }
+}
