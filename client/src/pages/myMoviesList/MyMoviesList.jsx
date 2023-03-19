@@ -9,20 +9,21 @@ const MyMoviesList = () => {
     const [movies, setMovies] = useState([]);
     axios.create({baseURL: process.env.API_URL});
 
+    const getFavoriteMovies = async () => {
+        try {
+            const res = await axios.get("/users/favorite", {
+                    headers: {
+                        token: "Bearer " + JSON.parse(localStorage.getItem("user")).accessToken,
+                    },
+                }
+            );
+            setMovies(res.data.favoriteMovies);
+        } catch (err) {
+            console.log(err);
+        }
+    };
+
     useEffect(() => {
-        const getFavoriteMovies = async () => {
-            try {
-                const res = await axios.get("/users/favorite", {
-                        headers: {
-                            token: "Bearer " + JSON.parse(localStorage.getItem("user")).accessToken,
-                        },
-                    }
-                );
-                setMovies(res.data.favoriteMovies);
-            } catch (err) {
-                console.log(err);
-            }
-        };
         getFavoriteMovies();
     }, []);
 
@@ -31,7 +32,7 @@ const MyMoviesList = () => {
             <Navbar/>
             <div className="moviesListItems">
                 {movies.map((movie) => (
-                    <ListItem item={movie}/>
+                    <ListItem item={movie} refreshFavoriteMovies={getFavoriteMovies}/>
                 ))}
             </div>
         </div>

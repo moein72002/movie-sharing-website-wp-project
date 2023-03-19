@@ -1,34 +1,55 @@
 import "./listItem.scss";
 import {
     PlayArrow,
-    Add,
+    Add, Delete,
 } from "@material-ui/icons";
 import {useEffect, useRef, useState} from "react";
 import axios from "axios";
 import {Link} from "react-router-dom";
 
-export default function ListItem({index, item}) {
+export default function ListItem({item, refreshFavoriteMovies}) {
     const [isHovered, setIsHovered] = useState(false);
+    const [isFavorite, setIsFavorite] = useState(false);
     const [movie, setMovie] = useState({});
     const trailerVideo = useRef();
-    const [isfavotite, setIsfavorite] = useState(false);
-
 
     axios.create({baseURL: process.env.API_URL});
 
     axios.create({baseURL: process.env.API_URL});
-    const handledelete = async (id) => {
+
+    useEffect(() => {
+        const getIsMovieInUserFavorites = async () => {
+            try {
+                const res = await axios.post("users/isMovieInUserFavorites", {
+                  movieId: movie._id
+                }, {
+                        headers: {
+                            token: "Bearer " + JSON.parse(localStorage.getItem("user")).accessToken,
+                        },
+                    }
+                );
+                setIsFavorite(res.data.isMovieInUserFavorites);
+            } catch (err) {
+                console.log(err);
+            }
+        };
+        getIsMovieInUserFavorites();
+    }, [isHovered])
+
+    const deleteFromFavoriteMovies = async () => {
+        console.log("deleteFromFavoriteMovies");
         try {
-            setIsfavorite(false);
-            const res = await axios.put("users/favorite", {
+            // changeIsFavoriteState(false);
+            const res = await axios.post("users/deleteFavorite", {
+                deleteMovie: movie._id,
+            }, {
                 headers: {
                     token:
                         "Bearer " + JSON.parse(localStorage.getItem("user")).accessToken,
-                },
-                body: {
-                    deleteMovie: id,
                 }
             });
+            setIsFavorite(false);
+            refreshFavoriteMovies();
             setMovie(res.data);
         } catch (err) {
             console.log(err);
@@ -36,7 +57,6 @@ export default function ListItem({index, item}) {
     }
     const addToFavoriteMovies = async () => {
         try {
-            setIsfavorite(true);
             await axios.put("users/favorite", {
                 addMovie: movie._id
             }, {
@@ -45,7 +65,8 @@ export default function ListItem({index, item}) {
                         "Bearer " + JSON.parse(localStorage.getItem("user")).accessToken,
                 }
             });
-            // setMovie(res.data);
+            setIsFavorite(true);
+            refreshFavoriteMovies();
         } catch (err) {
             console.log(err);
         }
@@ -88,12 +109,12 @@ export default function ListItem({index, item}) {
                             <Link to={{pathname: "/watch", movie: movie}}>
                                 <PlayArrow className="playButton"/>
                             </Link>
-                            <Add className="icon" onClick={addToFavoriteMovies}/>
-                            {/*{isfavotite?*/}
-                            {/*    <Add onClick = {handleAdd(movie.id)} className="icon" />*/}
-                            {/*    :*/}
-                            {/*    <Delete onclick = {handledelete(movie.id)}/>*/}
-                            {/*}*/}
+                            {/*<Add className="icon" onClick={addToFavoriteMovies}/>*/}
+                            {!isFavorite ?
+                                <Add onClick={addToFavoriteMovies} className="icon"/>
+                                :
+                                <Delete onClick={deleteFromFavoriteMovies} className="icon"/>
+                            }
 
                         </div>
                         <div className="itemInfoTop">
